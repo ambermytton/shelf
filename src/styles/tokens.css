@@ -1,0 +1,104 @@
+/* ─── Design tokens derived from DESIGN.md (Notion analysis) — dark theme ─── */
+
+:root {
+  /* Colors — Brand */
+  --color-primary: #4da3ff;
+  --color-primary-active: #2288ee;
+  --color-secondary: #213183;
+  --color-on-primary: #ffffff;
+
+  /* Colors — Surface (dark) */
+  --color-canvas: #0d0d0d;
+  --color-canvas-soft: #141414;
+  --color-surface: #1c1c1c;
+  --color-hairline: #2a2a2a;
+
+  /* Colors — Text (dark) */
+  --color-ink: #f0ede8;
+  --color-ink-secondary: #c8c4be;
+  --color-ink-muted: #8a8680;
+  --color-ink-faint: #4a4845;
+
+  /* Typography — display font for wordmark */
+  --font-family-display: 'DM Serif Display', Georgia, serif;
+
+  /* Colors — Accent (decorative only — never structural) */
+  --color-accent-sky: #62aef0;
+  --color-accent-purple: #d6b6f6;
+  --color-accent-purple-deep: #391c57;
+  --color-accent-pink: #ff64c8;
+  --color-accent-orange: #dd5b00;
+  --color-accent-orange-deep: #793400;
+  --color-accent-teal: #2a9d99;
+  --color-accent-green: #1aae39;
+  --color-accent-brown: #523410;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --font-size-display-1: 64px;
+  --font-size-display-2: 54px;
+  --font-size-heading-1: 40px;
+  --font-size-heading-2: 26px;
+  --font-size-heading-3: 22px;
+  --font-size-title: 20px;
+  --font-size-body-md: 16px;
+  --font-size-body-sm: 15px;
+  --font-size-button: 16px;
+  --font-size-caption: 14px;
+  --font-size-eyebrow: 12px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-display-1: 1.0;
+  --line-height-display-2: 1.04;
+  --line-height-heading-1: 1.1;
+  --line-height-heading-2: 1.23;
+  --line-height-heading-3: 1.27;
+  --line-height-title: 1.4;
+  --line-height-body-md: 1.5;
+  --line-height-body-sm: 1.33;
+  --line-height-caption: 1.43;
+  --line-height-eyebrow: 1.33;
+
+  --letter-spacing-display-1: -2.125px;
+  --letter-spacing-display-2: -1.875px;
+  --letter-spacing-heading-1: -1px;
+  --letter-spacing-heading-2: -0.625px;
+  --letter-spacing-heading-3: -0.25px;
+  --letter-spacing-title: -0.125px;
+  --letter-spacing-eyebrow: 0.125px;
+
+  /* Border radius */
+  --rounded-xs: 4px;
+  --rounded-sm: 5px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 28px;
+  --space-xxl: 32px;
+
+  /* Elevation */
+  --shadow-soft:
+    0 0.175px 1.041px rgba(0, 0, 0, 0.01),
+    0 0.8px   2.925px rgba(0, 0, 0, 0.02),
+    0 2.025px 7.847px rgba(0, 0, 0, 0.027),
+    0 4px     18px    rgba(0, 0, 0, 0.04);
+  --shadow-elevated:
+    0 0.175px 1.041px rgba(0, 0, 0, 0.01),
+    0 0.8px   2.925px rgba(0, 0, 0, 0.02),
+    0 2.025px 7.847px rgba(0, 0, 0, 0.027),
+    0 4px     18px    rgba(0, 0, 0, 0.04),
+    0 23px    52px    rgba(0, 0, 0, 0.05);
+}

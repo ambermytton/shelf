@@ -1,0 +1,251 @@
+.card {
+  position: relative;
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1),
+              box-shadow 0.15s ease;
+  cursor: pointer;
+  will-change: transform;
+  z-index: 0;
+}
+
+.card:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.book  {}
+.movie {}
+.show  {}
+.music {}
+
+/* ─── Cover image ─── */
+.coverImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder when no cover */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  opacity: 0.45;
+  background: var(--color-surface);
+}
+
+/* ─── Gradient scrim — strong enough for always-visible text ─── */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 22%,
+    rgba(0, 0, 0, 0.06) 42%,
+    rgba(0, 0, 0, 0.58) 62%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── Always-visible metadata at card bottom ─── */
+.meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-xs) var(--space-xs) 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  letter-spacing: -0.1px;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.8);
+  width: 100%;
+}
+
+.sub {
+  font-size: 11px;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* ─── Status chip — inline within meta ─── */
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  padding: 2px 8px;
+  border-radius: var(--rounded-full);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.2px;
+  max-width: calc(100% - 4px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Not started — muted glass */
+.statusChip[data-status='want'] {
+  color: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+/* In progress — blue glass glow */
+.statusChip[data-status='progress'] {
+  color: rgba(130, 200, 255, 0.95);
+  background: rgba(77, 163, 255, 0.16);
+  border: 1px solid rgba(77, 163, 255, 0.34);
+  box-shadow: 0 0 8px rgba(77, 163, 255, 0.22);
+}
+
+/* Finished — green glass glow */
+.statusChip[data-status='finished'] {
+  color: rgba(55, 220, 100, 0.95);
+  background: rgba(26, 174, 57, 0.16);
+  border: 1px solid rgba(26, 174, 57, 0.34);
+  box-shadow: 0 0 8px rgba(26, 174, 57, 0.22);
+}
+
+/* ─── Type chip — top left ─── */
+.typeChip {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-xs);
+  background: rgba(0, 0, 0, 0.52);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: var(--rounded-full);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+/* ─── Fit dot — top right ─── */
+.fitDot {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  width: 9px;
+  height: 9px;
+  border-radius: var(--rounded-full);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.fitDot[data-verdict='good'] {
+  background: var(--color-accent-green);
+  animation: pulseGreen 2.6s ease-in-out infinite;
+}
+
+.fitDot[data-verdict='partial'] {
+  background: var(--color-accent-orange);
+  animation: pulseOrange 2.6s ease-in-out infinite;
+}
+
+.fitDot[data-verdict='poor'] {
+  background: #e5534b;
+  animation: pulseRed 2.6s ease-in-out infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 174, 57, 0.55); }
+  50%       { box-shadow: 0 0 0 5px rgba(26, 174, 57, 0); }
+}
+
+@keyframes pulseOrange {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(221, 91, 0, 0.55); }
+  50%       { box-shadow: 0 0 0 5px rgba(221, 91, 0, 0); }
+}
+
+@keyframes pulseRed {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 83, 75, 0.55); }
+  50%       { box-shadow: 0 0 0 5px rgba(229, 83, 75, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fitDot { animation: none; }
+}
+
+/* ─── Progress bar — books + shows in-progress ─── */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(77, 163, 255, 0.95) 0%, rgba(130, 222, 255, 1) 100%);
+  border-radius: 0 var(--rounded-full) var(--rounded-full) 0;
+  box-shadow:
+    0 0 8px rgba(77, 163, 255, 0.9),
+    0 0 18px rgba(77, 163, 255, 0.40);
+  transition: width 0.4s cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+/* ─── Rating badge — frosted glass, amber glow ─── */
+.ratingBadge {
+  position: absolute;
+  top: var(--space-xs);
+  right: 26px;
+  background: rgba(8, 8, 8, 0.65);
+  border: 1px solid rgba(232, 168, 56, 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #f0cb60;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  padding: 3px 9px;
+  border-radius: var(--rounded-full);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.4px;
+  box-shadow:
+    0 0 10px rgba(232, 168, 56, 0.28),
+    0 0 4px rgba(232, 168, 56, 0.40),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  pointer-events: none;
+}

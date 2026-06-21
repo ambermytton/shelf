@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "tasteProfile": {
+    "preferredGenres": [],
+    "avoidGenres": [],
+    "maxBookPages": 600,
+    "maxRuntimeMinutes": 180,
+    "avoidContent": [],
+    "minRating": 6.0
+  },
+  "items": []
+}

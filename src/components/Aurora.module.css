@@ -1,0 +1,68 @@
+/* Slow-drifting aurora orbs — GPU-cheap (transform only), always below content */
+.wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb1,
+.orb2,
+.orb3 {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* Blue orb — top-left */
+.orb1 {
+  width: 72vw;
+  height: 56vh;
+  top: -14%;
+  left: -10%;
+  background: radial-gradient(ellipse at 40% 40%, rgba(77, 163, 255, 0.15) 0%, transparent 65%);
+  filter: blur(64px);
+  animation: drift1 22s ease-in-out infinite alternate;
+}
+
+/* Purple orb — bottom-right */
+.orb2 {
+  width: 66vw;
+  height: 66vh;
+  bottom: -22%;
+  right: -14%;
+  background: radial-gradient(ellipse at 60% 50%, rgba(155, 109, 255, 0.12) 0%, transparent 65%);
+  filter: blur(80px);
+  animation: drift2 28s ease-in-out infinite alternate;
+}
+
+/* Teal orb — mid-center */
+.orb3 {
+  width: 56vw;
+  height: 44vh;
+  top: 38%;
+  left: 22%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(42, 157, 153, 0.09) 0%, transparent 65%);
+  filter: blur(72px);
+  animation: drift3 18s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(14vw, 10vh) scale(1.07); }
+}
+
+@keyframes drift2 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-10vw, -8vh) scale(1.05); }
+}
+
+@keyframes drift3 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(6vw, -6vh) scale(1.09); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb1, .orb2, .orb3 { animation: none; }
+}

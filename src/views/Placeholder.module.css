@@ -1,0 +1,21 @@
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xxl) var(--space-lg);
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: var(--font-size-heading-1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading-1);
+  letter-spacing: var(--letter-spacing-heading-1);
+  color: var(--color-ink);
+  margin-bottom: var(--space-sm);
+}
+
+.note {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-ink-faint);
+}

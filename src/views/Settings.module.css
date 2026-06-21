@@ -1,0 +1,190 @@
+.page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-xxl) var(--space-lg);
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: var(--font-size-heading-1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading-1);
+  letter-spacing: var(--letter-spacing-heading-1);
+  color: var(--color-ink);
+  margin-bottom: var(--space-xxl);
+}
+
+/* ─── Section ─── */
+.section {
+  margin-bottom: var(--space-xxl);
+  padding-bottom: var(--space-xxl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.section:last-child { border-bottom: none; }
+
+.sectionHeading {
+  font-size: var(--font-size-heading-3);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading-3);
+  letter-spacing: var(--letter-spacing-heading-3);
+  color: var(--color-ink);
+  margin-bottom: var(--space-xs);
+}
+
+.sectionHint {
+  font-size: var(--font-size-caption);
+  color: var(--color-ink-muted);
+  margin-bottom: var(--space-lg);
+  line-height: 1.5;
+}
+
+/* ─── Fields stack ─── */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.fieldLabel {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink-secondary);
+}
+
+.fieldHint {
+  font-size: var(--font-size-caption);
+  color: var(--color-ink-faint);
+  margin-top: 2px;
+}
+
+/* ─── Range slider ─── */
+.rangeField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rangeHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.rangeValue {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: var(--rounded-full);
+  background: var(--color-hairline);
+  outline: none;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-canvas);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s;
+}
+
+.range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-canvas);
+}
+
+.rangeBounds {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Save row ─── */
+.saveRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.unsavedNote {
+  font-size: var(--font-size-caption);
+  color: var(--color-ink-faint);
+}
+
+/* ─── Data section ─── */
+.meta {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-ink-muted);
+  margin-bottom: var(--space-md);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ─── Buttons ─── */
+.btnPrimary,
+.btnSecondary,
+.btnDanger {
+  font-family: var(--font-family);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  padding: 9px var(--space-md);
+  border-radius: var(--rounded-full);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s;
+}
+
+.btnPrimary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+}
+.btnPrimary:hover:not(:disabled) { background: var(--color-primary-active); border-color: var(--color-primary-active); }
+.btnPrimary:disabled { opacity: 0.4; cursor: default; }
+
+.btnSecondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-hairline);
+}
+.btnSecondary:hover { border-color: var(--color-ink-muted); }
+
+.btnDanger {
+  background: transparent;
+  color: #e5534b;
+  border-color: var(--color-hairline);
+  margin-left: auto;
+}
+.btnDanger:hover { border-color: #e5534b; }

@@ -1,0 +1,102 @@
+.page {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-xxl) var(--space-lg);
+  box-sizing: border-box;
+}
+
+/* ─── Search bar ─── */
+.searchBar {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  font-family: var(--font-family);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-hairline);
+  border-radius: 0;
+  outline: none;
+  padding: var(--space-xs) 0 var(--space-sm);
+  caret-color: var(--color-primary);
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder { color: var(--color-ink-faint); }
+.input:focus { border-bottom-color: var(--color-primary); }
+
+/* Hide browser search UI */
+.input::-webkit-search-decoration,
+.input::-webkit-search-cancel-button { display: none; }
+
+/* ─── Filter tabs — share the search bottom-border visually ─── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-hairline);
+  margin-bottom: var(--space-xl);
+}
+
+.tab {
+  font-family: var(--font-family);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-ink-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab:hover { color: var(--color-ink); }
+
+.tabActive {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ─── Status messages ─── */
+.status {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-ink-muted);
+  padding: var(--space-xxl) 0;
+  text-align: center;
+}
+
+.warning {
+  font-size: var(--font-size-caption);
+  color: #f07030;
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(221, 91, 0, 0.08);
+  border-radius: var(--rounded-md);
+}
+
+.errorMsg {
+  font-size: var(--font-size-body-sm);
+  color: #e5534b;
+  padding: var(--space-md) 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ─── Results list ─── */
+.results {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+}
