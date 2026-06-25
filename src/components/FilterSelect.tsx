@@ -73,7 +73,17 @@ export default function FilterSelect({ options, value, onChange, ariaLabel, acti
         <div
           ref={dropdownRef}
           className={styles.dropdown}
-          style={{ top: triggerRect.bottom + 6, left: triggerRect.left, minWidth: triggerRect.width }}
+          style={(() => {
+            const approxWidth = Math.max(triggerRect.width, 140);
+            const wouldOverflowRight = triggerRect.left + approxWidth > window.innerWidth - 8;
+            return {
+              top: triggerRect.bottom + 6,
+              minWidth: triggerRect.width,
+              ...(wouldOverflowRight
+                ? { right: window.innerWidth - triggerRect.right }
+                : { left: triggerRect.left }),
+            };
+          })()}
           role="listbox"
           aria-label={ariaLabel}
         >
