@@ -3,10 +3,10 @@ import { useSearchParams, Link } from 'react-router-dom';
 import MosaicGrid from '../components/MosaicGrid';
 import ItemDetailPanel from '../components/ItemDetailPanel';
 import FiltersBar, { type Filters } from '../components/FiltersBar';
-import { useStore } from '../store/useStore';
+import { useStore, DEFAULT_PROFILE } from '../store/useStore';
 import { filterAndSort } from '../lib/filterSort';
 import { EXAMPLE_ITEMS } from '../_fixtures/example-items';
-import { SAMPLE_ITEMS, SAMPLE_IDS } from '../_fixtures/sampleItems';
+import { SAMPLE_ITEMS, SAMPLE_IDS, SAMPLE_PROFILE } from '../_fixtures/sampleItems';
 import type { Item } from '../store/types';
 import styles from './Library.module.css';
 
@@ -97,7 +97,7 @@ function itemToGridProps(item: Item) {
 }
 
 export default function Library() {
-  const { store, addItem, deleteItem } = useStore();
+  const { store, addItem, deleteItem, setProfile } = useStore();
   const [searchParams] = useSearchParams();
   const isDemo = searchParams.has('demo');
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -110,15 +110,18 @@ export default function Library() {
 
   function populateSamples() {
     SAMPLE_ITEMS.forEach(item => addItem(item));
+    setProfile(SAMPLE_PROFILE);
     localStorage.setItem(SAMPLES_KEY, JSON.stringify(SAMPLE_IDS));
     setSampleIds(SAMPLE_IDS);
   }
 
   function clearSamples() {
     sampleIds.forEach(id => deleteItem(id));
+    setProfile(DEFAULT_PROFILE);
     localStorage.removeItem(SAMPLES_KEY);
     setSampleIds([]);
   }
+
   // Derive live from store so panel reflects updates (e.g. after TMDB refresh)
   const selectedItem = selectedItemId ? (store.items.find(i => i.id === selectedItemId) ?? null) : null;
 
@@ -153,15 +156,6 @@ export default function Library() {
           totalCount={store.items.length}
           filteredCount={filteredItems.length}
         />
-      )}
-
-      {samplesActive && (
-        <div className={styles.samplesBanner}>
-          showing sample data
-          <button className={styles.clearSamplesBtn} onClick={clearSamples}>
-            clear examples
-          </button>
-        </div>
       )}
 
       {!isDemo && store.items.length === 0 && (
@@ -203,6 +197,15 @@ export default function Library() {
       )}
 
       <MosaicGrid items={gridItems} onCardClick={handleCardClick} />
+
+      {samplesActive && (
+        <div className={styles.samplesBanner}>
+          <span className={styles.samplesBannerText}>Showing sample data</span>
+          <button className={styles.clearSamplesBtn} onClick={clearSamples}>
+            clear examples
+          </button>
+        </div>
+      )}
 
       {selectedItem && (
         <ItemDetailPanel

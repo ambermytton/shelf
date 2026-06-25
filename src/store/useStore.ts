@@ -11,7 +11,7 @@ import type { Store, StoreAction, Item, TasteProfile } from './types';
 
 // ─── Defaults ────────────────────────────────────────────────────────────────
 
-const DEFAULT_PROFILE: TasteProfile = {
+export const DEFAULT_PROFILE: TasteProfile = {
   preferredGenres: [],
   avoidGenres: [],
   maxBookPages: 600,
