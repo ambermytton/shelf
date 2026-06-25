@@ -13,11 +13,32 @@ import styles from './Library.module.css';
 const SAMPLES_KEY = 'shelf_samples_v1';
 
 const QUOTE_FILLERS = [
-  { id: 'q1', type: 'quote' as const, text: 'So many books, so little time.', attribution: 'Frank Zappa' },
-  { id: 'q2', type: 'quote' as const, text: 'A reader lives a thousand lives before he dies.', attribution: 'George R.R. Martin' },
-  { id: 'q3', type: 'quote' as const, text: 'We are all stories, in the end.', attribution: 'The Doctor' },
-  { id: 'q4', type: 'quote' as const, text: 'We read to know we are not alone.', attribution: 'C.S. Lewis' },
+  { id: 'q1', type: 'quote' as const, text: 'Get busy living, or get busy dying.', attribution: 'The Shawshank Redemption' },
+  { id: 'q2', type: 'quote' as const, text: 'So many books, so little time.', attribution: 'Frank Zappa' },
+  { id: 'q3', type: 'quote' as const, text: 'I am the one who knocks.', attribution: 'Breaking Bad' },
+  { id: 'q4', type: 'quote' as const, text: 'A reader lives a thousand lives before he dies.', attribution: 'George R.R. Martin' },
+  { id: 'q5', type: 'quote' as const, text: 'Not today.', attribution: 'Game of Thrones' },
 ];
+
+type QuoteItem = (typeof QUOTE_FILLERS)[number];
+
+function weaveQuotes<T extends { id: string; type: string }>(items: T[], quotes: QuoteItem[]): (T | QuoteItem)[] {
+  if (!quotes.length || !items.length) return items;
+  // Spanning items (books 1×2, movies 2×1) go first so the dense algorithm
+  // fills their orphan gaps with show cards before reaching any quote card.
+  const spanning = items.filter(i => i.type === 'book' || i.type === 'movie');
+  const singles  = items.filter(i => i.type !== 'book' && i.type !== 'movie');
+  const n = quotes.length;
+  const len = singles.length;
+  // floor((i+1)*len/(n+1)) gives perfectly even positions in the singles array,
+  // guaranteeing at least floor(len/(n+1)) items between every two quotes.
+  const positions = quotes.map((_, i) => Math.floor((i + 1) * len / (n + 1)));
+  const mixed: (T | QuoteItem)[] = [...singles];
+  for (let i = n - 1; i >= 0; i--) {
+    mixed.splice(positions[i], 0, quotes[i]);
+  }
+  return [...spanning, ...mixed];
+}
 
 const DEFAULT_FILTERS: Filters = {
   status: 'all',
@@ -104,9 +125,10 @@ export default function Library() {
   const showFirstRun = !isDemo && isProfileEmpty(store.tasteProfile) && store.items.length === 0;
 
   const filteredItems = filterAndSort(store.items, filters);
+  const baseItems = filteredItems.map(itemToGridProps);
   const gridItems = isDemo
     ? (EXAMPLE_ITEMS as ReturnType<typeof itemToGridProps>[])
-    : [...filteredItems.map(itemToGridProps), ...(samplesActive ? QUOTE_FILLERS : [])];
+    : (samplesActive ? weaveQuotes(baseItems, QUOTE_FILLERS) : baseItems);
 
   const showFilters = !isDemo && store.items.length > 0;
 
