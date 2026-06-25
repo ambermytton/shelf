@@ -6,8 +6,18 @@ import FiltersBar, { type Filters } from '../components/FiltersBar';
 import { useStore } from '../store/useStore';
 import { filterAndSort } from '../lib/filterSort';
 import { EXAMPLE_ITEMS } from '../_fixtures/example-items';
+import { SAMPLE_ITEMS, SAMPLE_IDS } from '../_fixtures/sampleItems';
 import type { Item } from '../store/types';
 import styles from './Library.module.css';
+
+const SAMPLES_KEY = 'shelf_samples_v1';
+
+const QUOTE_FILLERS = [
+  { id: 'q1', type: 'quote' as const, text: 'So many books, so little time.', attribution: 'Frank Zappa' },
+  { id: 'q2', type: 'quote' as const, text: 'A reader lives a thousand lives before he dies.', attribution: 'George R.R. Martin' },
+  { id: 'q3', type: 'quote' as const, text: 'We are all stories, in the end.', attribution: 'The Doctor' },
+  { id: 'q4', type: 'quote' as const, text: 'We read to know we are not alone.', attribution: 'C.S. Lewis' },
+];
 
 const DEFAULT_FILTERS: Filters = {
   status: 'all',
@@ -66,11 +76,28 @@ function itemToGridProps(item: Item) {
 }
 
 export default function Library() {
-  const { store } = useStore();
+  const { store, addItem, deleteItem } = useStore();
   const [searchParams] = useSearchParams();
   const isDemo = searchParams.has('demo');
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [sampleIds, setSampleIds] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem(SAMPLES_KEY) ?? '[]'); } catch { return []; }
+  });
+
+  const samplesActive = sampleIds.length > 0 && store.items.some(i => sampleIds.includes(i.id));
+
+  function populateSamples() {
+    SAMPLE_ITEMS.forEach(item => addItem(item));
+    localStorage.setItem(SAMPLES_KEY, JSON.stringify(SAMPLE_IDS));
+    setSampleIds(SAMPLE_IDS);
+  }
+
+  function clearSamples() {
+    sampleIds.forEach(id => deleteItem(id));
+    localStorage.removeItem(SAMPLES_KEY);
+    setSampleIds([]);
+  }
   // Derive live from store so panel reflects updates (e.g. after TMDB refresh)
   const selectedItem = selectedItemId ? (store.items.find(i => i.id === selectedItemId) ?? null) : null;
 
@@ -79,7 +106,7 @@ export default function Library() {
   const filteredItems = filterAndSort(store.items, filters);
   const gridItems = isDemo
     ? (EXAMPLE_ITEMS as ReturnType<typeof itemToGridProps>[])
-    : filteredItems.map(itemToGridProps);
+    : [...filteredItems.map(itemToGridProps), ...(samplesActive ? QUOTE_FILLERS : [])];
 
   const showFilters = !isDemo && store.items.length > 0;
 
@@ -97,17 +124,6 @@ export default function Library() {
         </div>
       )}
 
-      {showFirstRun && (
-        <div className={styles.firstRun}>
-          <p className={styles.firstRunText}>
-            Set up your taste profile to get fit verdicts as you add titles.
-          </p>
-          <Link to="/settings" className={styles.firstRunLink}>
-            Set up profile →
-          </Link>
-        </div>
-      )}
-
       {showFilters && (
         <FiltersBar
           filters={filters}
@@ -117,10 +133,37 @@ export default function Library() {
         />
       )}
 
-      {!isDemo && store.items.length === 0 && !showFirstRun && (
+      {samplesActive && (
+        <div className={styles.samplesBanner}>
+          showing sample data
+          <button className={styles.clearSamplesBtn} onClick={clearSamples}>
+            clear examples
+          </button>
+        </div>
+      )}
+
+      {!isDemo && store.items.length === 0 && (
         <div className={styles.emptyState}>
-          <p className={styles.emptyText}>Your shelf is empty.</p>
-          <Link to="/add" className={styles.emptyLink}>Add your first title →</Link>
+          <div className={styles.cornerHints}>
+            {showFirstRun && (
+              <Link to="/settings" className={styles.cornerHint}>
+                Set up taste profile for custom verdicts →
+              </Link>
+            )}
+            <Link to="/add" className={styles.cornerHint}>
+              Add your first title →
+            </Link>
+          </div>
+          <div className={styles.spinBorderWrap}>
+            <div className={styles.populateSection}>
+              <p className={styles.populateHint}>
+                A shelf with no books is just furniture.<br />
+                <button className={styles.populateInline} onClick={populateSamples}>
+                  click here to see examples
+                </button>
+              </p>
+            </div>
+          </div>
         </div>
       )}
 

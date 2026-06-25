@@ -6,9 +6,9 @@ import styles from './Stats.module.css';
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const TYPE_COLORS = {
-  book:  '#e8a838',
-  movie: '#4da3ff',
-  show:  '#a472e8',
+  book:  '#298DFF',
+  movie: '#B8B8C0',
+  show:  '#555558',
 } as const;
 
 /** Rating bands for prediction accuracy. Adjust thresholds here. */

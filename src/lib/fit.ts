@@ -19,15 +19,48 @@ export interface FitCandidate {
   sourceRating?: number;
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// ─── Genre normalisation & alias map ─────────────────────────────────────────
 
 function normalise(s: string): string {
-  return s.trim().toLowerCase();
+  return s
+    .trim()
+    .toLowerCase()
+    .replace(/[-–—]/g, ' ')
+    .replace(/[''']/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
+/**
+ * Common equivalents across TMDB genres, Open Library subjects, and
+ * user-typed preferences. Keys are post-normalise (lowercase, hyphens→space).
+ * Add new pairs here whenever a source/vocabulary mismatch surfaces.
+ */
+export const GENRE_ALIASES: Record<string, string> = {
+  // sci-fi cluster — canonical: 'sci fi' (what "sci-fi" becomes after normalise)
+  'science fiction': 'sci fi',
+  'scifi':           'sci fi',
+  // children
+  'children':        'kids',
+  'childrens':       'kids',
+  // rom-com
+  'rom com':         'romance',
+  'romantic comedy': 'romance',
+  // non-fiction
+  'nonfiction':      'non fiction',
+};
+
+/** Normalise then resolve through the alias map. Exported for use in Stats. */
+export function resolveGenre(s: string): string {
+  const n = normalise(s);
+  return GENRE_ALIASES[n] ?? n;
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
 function overlap(a: string[], b: string[]): string[] {
-  const setB = new Set(b.map(normalise));
-  return a.map(normalise).filter(x => setB.has(x));
+  const setB = new Set(b.map(resolveGenre));
+  return a.filter(x => setB.has(resolveGenre(x)));
 }
 
 function cap(s: string): string {

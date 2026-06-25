@@ -16,7 +16,6 @@ export interface CardProps {
   progress?: number;       // 0–100
   progressLabel?: string;  // "p.189 of 286 · 68%" / "S2 E5 · 34%"
   userRating?: number;     // 0–10
-  scale?: number;
   onClick?: () => void;
 }
 
@@ -53,7 +52,6 @@ export default function Card({
   progress,
   progressLabel,
   userRating,
-  scale = 1,
   onClick,
 }: CardProps) {
   const typeClass = styles[type] ?? styles.book;
@@ -72,7 +70,6 @@ export default function Card({
   return (
     <article
       className={`${styles.card} ${typeClass}`}
-      style={{ transform: `scale(${scale})`, zIndex: scale > 1.05 ? Math.round(scale * 10) : 0 }}
       onClick={onClick}
       tabIndex={0}
       role="button"

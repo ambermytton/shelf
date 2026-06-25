@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { evaluateFit, FIT_CONFIG } from './fit';
+import { evaluateFit, FIT_CONFIG, GENRE_ALIASES, resolveGenre } from './fit';
 import type { FitCandidate } from './fit';
 import type { TasteProfile } from '../store/types';
 
@@ -249,6 +249,70 @@ describe('verdict combinations', () => {
 
     const poor = evaluateFit({ ...BOOK, genres: ['horror'] }, BASE_PROFILE);
     expect(poor.reason.length).toBeGreaterThan(0);
+  });
+});
+
+// ─── Genre alias matching ─────────────────────────────────────────────────────
+
+describe('genre alias matching', () => {
+  it('regression: "Science-fiction" candidate matches "sci-fi" preference (the original bug)', () => {
+    const candidate: FitCandidate = { ...BOOK, genres: ['Science-fiction'] };
+    const result = evaluateFit(candidate, BASE_PROFILE);
+    expect(result.verdict).toBe('good');
+    expect(result.matched.some(m => /science.fiction|sci.fi/i.test(m))).toBe(true);
+  });
+
+  it('"science fiction" (Open Library variant) matches "sci-fi" preference', () => {
+    const candidate: FitCandidate = { ...BOOK, genres: ['science fiction'] };
+    const result = evaluateFit(candidate, BASE_PROFILE);
+    expect(result.verdict).toBe('good');
+  });
+
+  it('"Sci-Fi" (title-cased) matches "sci-fi" preference', () => {
+    const candidate: FitCandidate = { ...BOOK, genres: ['Sci-Fi'] };
+    const result = evaluateFit(candidate, BASE_PROFILE);
+    expect(result.verdict).toBe('good');
+  });
+
+  it('"children" candidate genre matches "kids" preference', () => {
+    const profile: TasteProfile = { ...BASE_PROFILE, preferredGenres: ['kids'] };
+    const candidate: FitCandidate = { ...BOOK, genres: ['children'], sourceRating: 8.5 };
+    const result = evaluateFit(candidate, profile);
+    expect(result.verdict).toBe('good');
+  });
+
+  it('"romantic comedy" candidate matches "romance" preference', () => {
+    const profile: TasteProfile = { ...BASE_PROFILE, preferredGenres: ['romance'] };
+    const candidate: FitCandidate = { ...MOVIE, genres: ['romantic comedy'] };
+    const result = evaluateFit(candidate, profile);
+    expect(result.verdict).toBe('good');
+  });
+
+  it('avoided-genre alias: "Science Fiction" in avoidGenres blocks a "sci-fi" candidate', () => {
+    const profile: TasteProfile = { ...BASE_PROFILE, avoidGenres: ['Science Fiction'] };
+    const candidate: FitCandidate = { ...BOOK, genres: ['sci-fi'] };
+    const result = evaluateFit(candidate, profile);
+    expect(result.verdict).toBe('poor');
+  });
+
+  it('resolveGenre — known alias pairs resolve to canonical', () => {
+    expect(resolveGenre('Science-fiction')).toBe('sci fi');
+    expect(resolveGenre('science fiction')).toBe('sci fi');
+    expect(resolveGenre('sci-fi')).toBe('sci fi');
+    expect(resolveGenre('children')).toBe('kids');
+    expect(resolveGenre('romantic comedy')).toBe('romance');
+    expect(resolveGenre('rom-com')).toBe('romance');
+  });
+
+  it('resolveGenre — unrecognised genre passes through normalised', () => {
+    expect(resolveGenre('Drama')).toBe('drama');
+    expect(resolveGenre('THRILLER')).toBe('thriller');
+  });
+
+  it('GENRE_ALIASES export contains expected entries', () => {
+    expect(GENRE_ALIASES['science fiction']).toBe('sci fi');
+    expect(GENRE_ALIASES['children']).toBe('kids');
+    expect(GENRE_ALIASES['romantic comedy']).toBe('romance');
   });
 });
 

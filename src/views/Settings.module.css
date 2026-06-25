@@ -7,10 +7,10 @@
 }
 
 .heading {
-  font-size: var(--font-size-heading-1);
+  font-size: var(--font-size-heading-2);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-heading-1);
-  letter-spacing: var(--letter-spacing-heading-1);
+  line-height: var(--line-height-heading-2);
+  letter-spacing: var(--letter-spacing-heading-2);
   color: var(--color-ink);
   margin-bottom: var(--space-xxl);
 }
@@ -55,7 +55,7 @@
 
 .fieldHint {
   font-size: var(--font-size-caption);
-  color: var(--color-ink-faint);
+  color: var(--color-ink-muted);
   margin-top: 2px;
 }
 
@@ -134,7 +134,7 @@
 
 .unsavedNote {
   font-size: var(--font-size-caption);
-  color: var(--color-ink-faint);
+  color: var(--color-ink-muted);
 }
 
 /* ─── Data section ─── */
@@ -167,12 +167,15 @@
 }
 
 .btnPrimary {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: transparent;
+  color: var(--color-ink);
   border-color: var(--color-primary);
 }
-.btnPrimary:hover:not(:disabled) { background: var(--color-primary-active); border-color: var(--color-primary-active); }
-.btnPrimary:disabled { opacity: 0.4; cursor: default; }
+.btnPrimary:hover:not(:disabled) {
+  color: #ffffff;
+  box-shadow: 0 0 16px var(--color-glow-primary);
+}
+.btnPrimary:disabled { opacity: 0.35; cursor: default; }
 
 .btnSecondary {
   background: transparent;

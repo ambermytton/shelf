@@ -1,0 +1,58 @@
+.card {
+  position: relative;
+  border-radius: var(--rounded-lg);
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover {
+  box-shadow:
+    0 0 0 1px rgba(41, 141, 255, 0.4),
+    0 16px 48px rgba(0, 0, 0, 0.85);
+}
+
+.mark {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  font-size: 80px;
+  line-height: 1;
+  font-family: Georgia, serif;
+  color: var(--color-primary);
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+}
+
+.text {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--color-ink-faint);
+  text-align: center;
+  line-height: 1.6;
+  margin: 0 0 var(--space-xs);
+  position: relative;
+  z-index: 1;
+}
+
+.attribution {
+  font-size: 9px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  opacity: 0.5;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}

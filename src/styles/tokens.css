@@ -1,37 +1,31 @@
-/* ─── Design tokens derived from DESIGN.md (Notion analysis) — dark theme ─── */
+/* ─── Design tokens — Shelf v2 dark identity ─── */
 
 :root {
-  /* Colors — Brand */
-  --color-primary: #4da3ff;
-  --color-primary-active: #2288ee;
-  --color-secondary: #213183;
+  /* Colors — Brand (single electric-blue accent) */
+  --color-primary: #298DFF;
+  --color-primary-active: #1A79EE;
   --color-on-primary: #ffffff;
+  --color-glow-primary: rgba(41, 141, 255, 0.22);
 
-  /* Colors — Surface (dark) */
-  --color-canvas: #0d0d0d;
-  --color-canvas-soft: #141414;
-  --color-surface: #1c1c1c;
-  --color-hairline: #2a2a2a;
+  /* Colors — Surface (true-black canvas, stepped surfaces) */
+  --color-canvas: #000000;
+  --color-canvas-soft: #0A0A0B;   /* cards, panels */
+  --color-surface: #111113;        /* inputs, interactive surfaces */
+  --color-hairline: #1C1C1F;       /* borders, dividers */
 
-  /* Colors — Text (dark) */
-  --color-ink: #f0ede8;
-  --color-ink-secondary: #c8c4be;
-  --color-ink-muted: #8a8680;
-  --color-ink-faint: #4a4845;
+  /* Colors — Text */
+  --color-ink: #EDEDED;
+  --color-ink-secondary: #B8B8C0;
+  --color-ink-muted: #78787F;
+  --color-ink-faint: #38383F;
 
   /* Typography — display font for wordmark */
   --font-family-display: 'DM Serif Display', Georgia, serif;
 
-  /* Colors — Accent (decorative only — never structural) */
-  --color-accent-sky: #62aef0;
-  --color-accent-purple: #d6b6f6;
-  --color-accent-purple-deep: #391c57;
-  --color-accent-pink: #ff64c8;
-  --color-accent-orange: #dd5b00;
-  --color-accent-orange-deep: #793400;
-  --color-accent-teal: #2a9d99;
+  /* Colors — Functional accents (fit verdicts only — never identity) */
   --color-accent-green: #1aae39;
-  --color-accent-brown: #523410;
+  --color-accent-orange: #dd5b00;
+  --color-accent-red: #e5534b;
 
   /* Typography */
   --font-family: 'Inter', -apple-system, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif;

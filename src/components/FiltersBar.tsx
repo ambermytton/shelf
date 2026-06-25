@@ -1,4 +1,5 @@
 import styles from './FiltersBar.module.css';
+import FilterSelect from './FilterSelect';
 import type { ItemStatus, ItemType, FitVerdict } from '../store/types';
 
 export type StatusFilter = 'all' | ItemStatus;
@@ -20,33 +21,33 @@ interface FiltersBarProps {
   filteredCount: number;
 }
 
-const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
-  { value: 'all', label: 'All status' },
-  { value: 'want', label: 'Want to' },
+const STATUS_OPTIONS = [
+  { value: 'all',         label: 'All status' },
+  { value: 'want',        label: 'Want to' },
   { value: 'in_progress', label: 'In progress' },
-  { value: 'finished', label: 'Finished' },
+  { value: 'finished',    label: 'Finished' },
 ];
 
-const TYPE_OPTIONS: { value: TypeFilter; label: string }[] = [
-  { value: 'all', label: 'All types' },
-  { value: 'book', label: 'Books' },
+const TYPE_OPTIONS = [
+  { value: 'all',   label: 'All types' },
+  { value: 'book',  label: 'Books' },
   { value: 'movie', label: 'Films' },
-  { value: 'show', label: 'Shows' },
+  { value: 'show',  label: 'Shows' },
 ];
 
-const FIT_OPTIONS: { value: FitFilter; label: string }[] = [
-  { value: 'all', label: 'All fit' },
-  { value: 'good', label: 'Good fit' },
+const FIT_OPTIONS = [
+  { value: 'all',     label: 'All fit' },
+  { value: 'good',    label: 'Good fit' },
   { value: 'partial', label: 'Partial fit' },
-  { value: 'poor', label: 'Poor fit' },
+  { value: 'poor',    label: 'Poor fit' },
 ];
 
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+const SORT_OPTIONS = [
   { value: 'status', label: 'Status' },
-  { value: 'added', label: 'Recently added' },
-  { value: 'title', label: 'Title A→Z' },
+  { value: 'added',  label: 'Recently added' },
+  { value: 'title',  label: 'Title A→Z' },
   { value: 'rating', label: 'Rating ↓' },
-  { value: 'fit', label: 'Fit' },
+  { value: 'fit',    label: 'Fit' },
 ];
 
 export default function FiltersBar({ filters, onChange, totalCount, filteredCount }: FiltersBarProps) {
@@ -59,38 +60,27 @@ export default function FiltersBar({ filters, onChange, totalCount, filteredCoun
 
   return (
     <div className={styles.bar}>
-      <select
-        className={`${styles.select} ${filters.status !== 'all' ? styles.selectActive : ''}`}
+      <FilterSelect
+        options={STATUS_OPTIONS}
         value={filters.status}
-        onChange={e => set('status', e.target.value as StatusFilter)}
-        aria-label="Filter by status"
-      >
-        {STATUS_OPTIONS.map(o => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
-
-      <select
-        className={`${styles.select} ${filters.type !== 'all' ? styles.selectActive : ''}`}
+        onChange={v => set('status', v as StatusFilter)}
+        ariaLabel="Filter by status"
+        active={filters.status !== 'all'}
+      />
+      <FilterSelect
+        options={TYPE_OPTIONS}
         value={filters.type}
-        onChange={e => set('type', e.target.value as TypeFilter)}
-        aria-label="Filter by type"
-      >
-        {TYPE_OPTIONS.map(o => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
-
-      <select
-        className={`${styles.select} ${filters.fit !== 'all' ? styles.selectActive : ''}`}
+        onChange={v => set('type', v as TypeFilter)}
+        ariaLabel="Filter by type"
+        active={filters.type !== 'all'}
+      />
+      <FilterSelect
+        options={FIT_OPTIONS}
         value={filters.fit}
-        onChange={e => set('fit', e.target.value as FitFilter)}
-        aria-label="Filter by fit"
-      >
-        {FIT_OPTIONS.map(o => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
+        onChange={v => set('fit', v as FitFilter)}
+        ariaLabel="Filter by fit"
+        active={filters.fit !== 'all'}
+      />
 
       <div className={styles.spacer} />
 
@@ -100,16 +90,12 @@ export default function FiltersBar({ filters, onChange, totalCount, filteredCoun
 
       <div className={styles.divider} />
 
-      <select
-        className={styles.select}
+      <FilterSelect
+        options={SORT_OPTIONS}
         value={filters.sort}
-        onChange={e => set('sort', e.target.value as SortKey)}
-        aria-label="Sort by"
-      >
-        {SORT_OPTIONS.map(o => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
+        onChange={v => set('sort', v as SortKey)}
+        ariaLabel="Sort by"
+      />
     </div>
   );
 }

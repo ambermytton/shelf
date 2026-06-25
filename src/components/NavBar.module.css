@@ -1,36 +1,11 @@
-/* ─── CSS custom property for animated gradient angle ─── */
-@property --add-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes rotateBorder {
-  to { --add-angle: 360deg; }
-}
-
-@keyframes accentPulse {
-  0%, 100% { opacity: 0.18; }
-  50%       { opacity: 0.32; }
-}
-
 /* ─── Nav shell ─── */
 .nav {
   position: sticky;
   top: 0;
   z-index: 100;
   overflow: hidden;
-
-  /* Frosted glass */
-  background: rgba(8, 8, 8, 0.72);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
-
-  /* 1px top inner highlight + subtle bottom border */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 4px 24px rgba(0, 0, 0, 0.35);
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
 
   padding: 0 var(--space-xxl);
   height: 52px;
@@ -39,22 +14,55 @@
   justify-content: space-between;
 }
 
+/* Dim electric-blue base line at the very top */
+.nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(41, 141, 255, 0.18);
+  pointer-events: none;
+}
+
+/* Scanning highlight — travels left to right every 9s */
+.nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(41, 141, 255, 0.55) 30%,
+    rgba(41, 141, 255, 1) 55%,
+    rgba(41, 141, 255, 0.55) 75%,
+    transparent 100%
+  );
+  filter: drop-shadow(0 0 4px rgba(41, 141, 255, 0.8));
+  animation: navScan 9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes navScan {
+  0%   { transform: translateX(-120px); opacity: 0; }
+  4%   { opacity: 1; }
+  96%  { opacity: 1; }
+  100% { transform: translateX(100vw); opacity: 0; }
+}
+
 /* ─── Wordmark ─── */
 .wordmark {
   font-family: var(--font-family-display);
   font-size: 22px;
   font-weight: 400;
   letter-spacing: 0.01em;
-  /* Light steel-blue base → hue-rotate cycles through all pastels continuously */
-  color: #b8d4f8;
+  color: var(--color-ink);
   text-decoration: none;
   font-style: italic;
-  animation: logoHue 16s linear infinite;
-}
-
-@keyframes logoHue {
-  from { filter: hue-rotate(0deg); }
-  to   { filter: hue-rotate(360deg); }
 }
 
 /* ─── Nav links ─── */
@@ -77,10 +85,10 @@
 
 .link:hover {
   color: var(--color-ink);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-/* Active state: no filled pill — just a subtle glow dot under the label */
+/* Active state: electric-blue underline */
 .active {
   color: var(--color-ink) !important;
 }
@@ -89,18 +97,16 @@
   content: '';
   position: absolute;
   bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+  left: 8px;
+  right: 8px;
+  height: 1.5px;
+  border-radius: 1px;
   background: var(--color-primary);
   box-shadow: 0 0 6px var(--color-primary);
 }
 
-/* ─── Glass "Add" pill ─── */
+/* ─── "+ Add" pill — blue text, no border ─── */
 .addBtn {
-  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -109,93 +115,27 @@
   font-family: var(--font-family);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--color-primary);
   text-decoration: none;
 
-  /* Glass body */
-  background: rgba(255, 255, 255, 0.07);
+  background: transparent;
+  border: none;
   border-radius: var(--rounded-full);
   padding: 6px var(--space-md);
-  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  /* Creates stacking context so ::before/::after at z-index:-1 stay within the pill */
-  isolation: isolate;
-}
-
-/* Spinning gradient border */
-.addBtn::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: conic-gradient(
-    from var(--add-angle),
-    #4da3ff 0deg,
-    #9b6dff 120deg,
-    #4da3ff 240deg,
-    #9b6dff 360deg
-  );
-  animation: rotateBorder 10s linear infinite, accentPulse 4s ease-in-out infinite;
-  z-index: -1;
-}
-
-/* Solid dark fill on top of gradient border so text is legible */
-.addBtn::after {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: rgba(14, 14, 18, 0.85);
-  z-index: -1;
+  transition: opacity 0.15s ease;
 }
 
 .addBtn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(77, 163, 255, 0.2);
+  opacity: 0.75;
 }
 
 .addBtn:active {
-  transform: translateY(0) scale(0.97);
-}
-
-/* ─── Nav light sweep — travels left to right every 9s ─── */
-.nav::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.055) 50%,
-    transparent 80%
-  );
-  transform: translateX(-120%);
-  animation: navSheen 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes navSheen {
-  0%   { transform: translateX(-120%); opacity: 0; }
-  8%   { opacity: 1; }
-  48%  { transform: translateX(120%); opacity: 1; }
-  55%  { opacity: 0; }
-  100% { transform: translateX(-120%); opacity: 0; }
+  opacity: 0.55;
 }
 
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
-  .addBtn::before {
-    animation: none;
-    background: rgba(77, 163, 255, 0.4);
-  }
-  .active::after {
-    box-shadow: none;
-  }
-  .wordmark {
-    animation: none;
-    color: var(--color-ink);
-  }
-  .nav::before {
-    animation: none;
-  }
+  .addBtn      { transition: none; }
+  .active::after { box-shadow: none; }
+  .nav::after  { animation: none; opacity: 0; }
 }

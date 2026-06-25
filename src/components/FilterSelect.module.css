@@ -1,0 +1,107 @@
+/* ─── Trigger pill ─── */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-ink-muted);
+  background: transparent;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-full);
+  padding: 5px 10px 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.trigger:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--color-ink);
+}
+
+.triggerActive {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  border-color: rgba(41, 141, 255, 0.45);
+}
+
+.triggerActive .chevron {
+  color: var(--color-primary);
+}
+
+.chevron {
+  color: var(--color-ink-faint);
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), color 0.15s ease;
+}
+
+.triggerOpen .chevron {
+  transform: rotate(180deg);
+}
+
+/* ─── Dropdown panel — rendered via portal at position:fixed ─── */
+.dropdown {
+  position: fixed;
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.72),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+  z-index: 400;
+  overflow: hidden;
+  padding: 4px;
+  animation: dropIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+/* ─── Option row ─── */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-ink-muted);
+  background: none;
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease, color 0.1s ease;
+  white-space: nowrap;
+}
+
+.option:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-ink);
+}
+
+.optionSelected {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+.check {
+  color: var(--color-primary);
+  font-size: 11px;
+  width: 12px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown { animation: none; }
+  .chevron  { transition: none; }
+}

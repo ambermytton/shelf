@@ -1,15 +1,21 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  /* Fixed row unit — cells fill their area, covers crop via object-fit */
   grid-auto-rows: 160px;
+  grid-auto-flow: dense;
   gap: var(--space-xs);
-  /* Overflow visible so scaled cards bleed outside their cell */
-  overflow: visible;
 }
 
 .cell {
   min-width: 0;
-  overflow: visible;
-  /* Grid items stretch by default — card fills entire cell area */
+  transition: opacity 0.3s ease;
+}
+
+/* Dim non-hovered cards when any card is being hovered */
+.grid:hover .cell {
+  opacity: 0.5;
+}
+
+.grid:hover .cell:hover {
+  opacity: 1;
 }

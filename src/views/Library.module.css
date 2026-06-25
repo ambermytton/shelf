@@ -1,58 +1,42 @@
 .page {
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: var(--space-lg);
-  /* Extra horizontal padding so scaled cards near the edges don't clip */
-  padding-left: var(--space-xxl);
-  padding-right: var(--space-xxl);
+  padding: var(--space-lg) var(--space-md);
   box-sizing: border-box;
+  position: relative;
 }
 
-/* ─── First-run nudge ─── */
-.firstRun {
+/* ─── Corner hints (top-right of empty state) ─── */
+.cornerHints {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-md);
   display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
-  background: rgba(77, 163, 255, 0.07);
-  border: 1px solid rgba(77, 163, 255, 0.18);
-  border-radius: var(--rounded-lg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  margin-bottom: var(--space-xl);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  z-index: 1;
 }
 
-.firstRunText {
+.cornerHint {
   font-size: var(--font-size-body-sm);
-  color: var(--color-ink-muted);
-  flex: 1;
-}
-
-.firstRunLink {
-  font-size: var(--font-size-body-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  white-space: nowrap;
+  color: var(--color-ink-faint);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
-.firstRunLink:hover { text-decoration: underline; }
+.cornerHint:hover {
+  color: var(--color-primary);
+}
 
 /* ─── Empty state ─── */
 .emptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  padding: 120px var(--space-lg);
+  justify-content: flex-end;
+  height: calc(100vh - 52px);
+  padding-bottom: clamp(48px, 8vh, 96px);
   text-align: center;
-}
-
-.emptyText {
-  font-size: var(--font-size-body-sm);
-  color: var(--color-ink-muted);
 }
 
 .emptyLink {
@@ -63,6 +47,108 @@
 }
 
 .emptyLink:hover { text-decoration: underline; }
+
+/* ─── Samples active banner ─── */
+.samplesBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  margin-bottom: var(--space-md);
+}
+
+.clearSamplesBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: var(--font-size-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.clearSamplesBtn:hover {
+  text-decoration: underline;
+}
+
+/* ─── Spinning border wrapper ─── */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.spinBorderWrap {
+  --border-angle: 0deg;
+  position: relative;
+  border-radius: 18px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0%,
+    rgba(41, 141, 255, 0.12) 10%,
+    rgba(41, 141, 255, 0.9) 18%,
+    rgba(110, 185, 255, 1) 22%,
+    rgba(41, 141, 255, 0.9) 26%,
+    rgba(41, 141, 255, 0.12) 34%,
+    transparent 44%
+  );
+  animation: borderSpin 4s linear infinite;
+}
+
+@keyframes borderSpin {
+  to { --border-angle: 360deg; }
+}
+
+/* ─── Populate examples nudge ─── */
+.populateSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: 17px;
+  background: var(--color-canvas);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+.populateHint {
+  font-size: var(--font-size-body-sm);
+  font-style: italic;
+  color: var(--color-ink-faint);
+  text-align: center;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.populateInline {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(41, 141, 255, 0.4);
+  transition: text-decoration-color 0.15s ease;
+}
+
+.populateInline:hover {
+  text-decoration-color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinBorderWrap { animation: none; }
+}
 
 /* Dev-only demo banner */
 .demoBanner {

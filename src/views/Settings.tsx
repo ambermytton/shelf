@@ -98,7 +98,7 @@ export default function Settings() {
       <section className={styles.section}>
         <h2 className={styles.sectionHeading}>Taste profile</h2>
         <p className={styles.sectionHint}>
-          Used to compute a fit verdict whenever you add a title. You can always add a "poor fit" anyway.
+          We use this to score new titles as a good, partial, or poor fit for your taste. You can always add something even if it doesn't match.
         </p>
 
         <div className={styles.fields}>

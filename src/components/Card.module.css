@@ -2,20 +2,19 @@
   position: relative;
   border-radius: var(--rounded-lg);
   overflow: hidden;
-  background: var(--color-surface);
+  background: var(--color-canvas-soft);
   width: 100%;
   height: 100%;
-  transform-origin: center center;
-  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1),
-              box-shadow 0.15s ease;
   cursor: pointer;
-  will-change: transform;
-  z-index: 0;
+  transition:
+    box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Electric-blue edge glow on hover */
 .card:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
-  z-index: 10;
+  box-shadow:
+    0 0 0 1px rgba(41, 141, 255, 0.4),
+    0 16px 48px rgba(0, 0, 0, 0.85);
 }
 
 .book  {}
@@ -23,7 +22,7 @@
 .show  {}
 .music {}
 
-/* ─── Cover image ─── */
+/* ─── Cover image — scales within overflow:hidden on hover ─── */
 .coverImg {
   position: absolute;
   inset: 0;
@@ -31,6 +30,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover .coverImg {
+  transform: scale(1.05);
 }
 
 /* Placeholder when no cover */
@@ -42,10 +46,10 @@
   justify-content: center;
   font-size: 28px;
   opacity: 0.45;
-  background: var(--color-surface);
+  background: var(--color-canvas-soft);
 }
 
-/* ─── Gradient scrim — strong enough for always-visible text ─── */
+/* ─── Gradient scrim ─── */
 .scrim {
   position: absolute;
   inset: 0;
@@ -60,7 +64,7 @@
   pointer-events: none;
 }
 
-/* ─── Always-visible metadata at card bottom ─── */
+/* ─── Metadata — lifts slightly on hover ─── */
 .meta {
   position: absolute;
   bottom: 0;
@@ -72,6 +76,11 @@
   align-items: flex-start;
   gap: 2px;
   pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover .meta {
+  transform: translateY(-4px);
 }
 
 .title {
@@ -100,7 +109,7 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
-/* ─── Status chip — inline within meta ─── */
+/* ─── Status chip — no glass, functional colour coding ─── */
 .statusChip {
   display: inline-flex;
   align-items: center;
@@ -109,8 +118,6 @@
   font-weight: var(--font-weight-semibold);
   padding: 2px 8px;
   border-radius: var(--rounded-full);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   pointer-events: none;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.2px;
@@ -120,44 +127,37 @@
   white-space: nowrap;
 }
 
-/* Not started — muted glass */
 .statusChip[data-status='want'] {
-  color: rgba(255, 255, 255, 0.60);
-  background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.11);
 }
 
-/* In progress — blue glass glow */
 .statusChip[data-status='progress'] {
   color: rgba(130, 200, 255, 0.95);
-  background: rgba(77, 163, 255, 0.16);
-  border: 1px solid rgba(77, 163, 255, 0.34);
-  box-shadow: 0 0 8px rgba(77, 163, 255, 0.22);
+  background: rgba(41, 141, 255, 0.14);
+  border: 1px solid rgba(41, 141, 255, 0.30);
 }
 
-/* Finished — green glass glow */
 .statusChip[data-status='finished'] {
   color: rgba(55, 220, 100, 0.95);
-  background: rgba(26, 174, 57, 0.16);
-  border: 1px solid rgba(26, 174, 57, 0.34);
-  box-shadow: 0 0 8px rgba(26, 174, 57, 0.22);
+  background: rgba(26, 174, 57, 0.14);
+  border: 1px solid rgba(26, 174, 57, 0.28);
 }
 
-/* ─── Type chip — top left ─── */
+/* ─── Type chip — neutral pill, no glass ─── */
 .typeChip {
   position: absolute;
   top: var(--space-xs);
   left: var(--space-xs);
-  background: rgba(0, 0, 0, 0.52);
-  color: rgba(255, 255, 255, 0.88);
+  background: rgba(0, 0, 0, 0.68);
+  color: rgba(255, 255, 255, 0.55);
   font-size: 10px;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   padding: 3px 7px;
   border-radius: var(--rounded-full);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   pointer-events: none;
 }
 
@@ -166,76 +166,39 @@
   position: absolute;
   top: var(--space-xs);
   right: var(--space-xs);
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: var(--rounded-full);
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
   pointer-events: none;
 }
 
-.fitDot[data-verdict='good'] {
-  background: var(--color-accent-green);
-  animation: pulseGreen 2.6s ease-in-out infinite;
-}
+.fitDot[data-verdict='good']    { background: var(--color-accent-green); }
+.fitDot[data-verdict='partial'] { background: var(--color-accent-orange); }
+.fitDot[data-verdict='poor']    { background: var(--color-accent-red); }
 
-.fitDot[data-verdict='partial'] {
-  background: var(--color-accent-orange);
-  animation: pulseOrange 2.6s ease-in-out infinite;
-}
-
-.fitDot[data-verdict='poor'] {
-  background: #e5534b;
-  animation: pulseRed 2.6s ease-in-out infinite;
-}
-
-@keyframes pulseGreen {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 174, 57, 0.55); }
-  50%       { box-shadow: 0 0 0 5px rgba(26, 174, 57, 0); }
-}
-
-@keyframes pulseOrange {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(221, 91, 0, 0.55); }
-  50%       { box-shadow: 0 0 0 5px rgba(221, 91, 0, 0); }
-}
-
-@keyframes pulseRed {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 83, 75, 0.55); }
-  50%       { box-shadow: 0 0 0 5px rgba(229, 83, 75, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fitDot { animation: none; }
-}
-
-/* ─── Progress bar — books + shows in-progress ─── */
+/* ─── Progress bar ─── */
 .progressBar {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.07);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, rgba(77, 163, 255, 0.95) 0%, rgba(130, 222, 255, 1) 100%);
-  border-radius: 0 var(--rounded-full) var(--rounded-full) 0;
-  box-shadow:
-    0 0 8px rgba(77, 163, 255, 0.9),
-    0 0 18px rgba(77, 163, 255, 0.40);
+  background: var(--color-primary);
   transition: width 0.4s cubic-bezier(0.34, 1.1, 0.64, 1);
 }
 
-/* ─── Rating badge — frosted glass, amber glow ─── */
+/* ─── Rating badge — solid dark, amber border ─── */
 .ratingBadge {
   position: absolute;
   top: var(--space-xs);
-  right: 26px;
-  background: rgba(8, 8, 8, 0.65);
-  border: 1px solid rgba(232, 168, 56, 0.42);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  right: 22px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(232, 168, 56, 0.38);
   color: #f0cb60;
   font-size: 11px;
   font-weight: var(--font-weight-bold);
@@ -243,9 +206,19 @@
   border-radius: var(--rounded-full);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.4px;
-  box-shadow:
-    0 0 10px rgba(232, 168, 56, 0.28),
-    0 0 4px rgba(232, 168, 56, 0.40),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10);
   pointer-events: none;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .coverImg,
+  .meta {
+    transition: none;
+  }
+  .card:hover .coverImg {
+    transform: none;
+  }
+  .card:hover .meta {
+    transform: none;
+  }
 }
