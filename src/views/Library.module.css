@@ -33,10 +33,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: calc(100vh - 52px);
-  padding-bottom: clamp(48px, 8vh, 96px);
+  padding: clamp(80px, 18vh, 160px) var(--space-md) clamp(48px, 8vh, 96px);
   text-align: center;
+}
+
+.welcomeCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: 360px;
+}
+
+.welcomeHeading {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  line-height: 1.3;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.welcomeBody {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+  margin: 0;
 }
 
 .emptyLink {

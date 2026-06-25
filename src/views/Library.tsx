@@ -170,15 +170,20 @@ export default function Library() {
               Add your first title →
             </Link>
           </div>
-          <div className={styles.spinBorderWrap}>
-            <div className={styles.populateSection}>
-              <p className={styles.populateHint}>
-                A shelf with no books is just furniture.<br />
-                <button className={styles.populateInline} onClick={populateSamples}>
-                  click here to see examples
-                </button>
-              </p>
-            </div>
+          <div className={styles.welcomeCopy}>
+            <p className={styles.welcomeHeading}>Track everything worth your time.</p>
+            <p className={styles.welcomeBody}>
+              Rate what you finish. Remember what's next.<br />
+              Find out if your taste is as good as you think.
+            </p>
+          </div>
+          <div className={styles.populateSection}>
+            <p className={styles.populateHint}>
+              A shelf with no books is just furniture.<br />
+              <button className={styles.populateInline} onClick={populateSamples}>
+                click here to see examples
+              </button>
+            </p>
           </div>
         </div>
       )}
