@@ -30,6 +30,9 @@
 
 /* ─── Empty state ─── */
 .emptyState {
+  /* Break out of .page horizontal padding so content centres to the viewport */
+  width: 100vw;
+  margin-left: calc(-1 * var(--space-md));
   display: flex;
   flex-direction: column;
   align-items: center;

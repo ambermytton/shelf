@@ -171,10 +171,10 @@ export default function Library() {
             </Link>
           </div>
           <div className={styles.welcomeCopy}>
-            <p className={styles.welcomeHeading}>Track everything worth your time.</p>
+            <p className={styles.welcomeHeading}>Welcome to Shelf.</p>
             <p className={styles.welcomeBody}>
-              Rate what you finish. Remember what's next.<br />
-              Find out if your taste is as good as you think.
+              Your personal library for film, TV and literature.<br />
+              Find out if your taste is as good as you think!
             </p>
           </div>
           <div className={styles.populateSection}>
