@@ -13,7 +13,7 @@
 
 /* Dim non-hovered cards when any card is being hovered */
 .grid:hover .cell {
-  opacity: 0.5;
+  opacity: 0.75;
 }
 
 .grid:hover .cell:hover {
