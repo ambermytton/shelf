@@ -63,6 +63,9 @@ export default function IntroLoader({ onDone }: Props) {
       gsap.set(m, { opacity: 0, scale: 0, xPercent: -50, yPercent: -50 });
     });
 
+    // Slows the whole mascot flight + flutter ~23% for a more graceful entrance
+    const MASCOT_TIME_SCALE = 0.81;
+
     const ctx = gsap.context(() => {
       // ── Continuous page flutter ──────────────────────────────────────────
       const flutter = gsap.timeline({ repeat: -1 });
@@ -72,6 +75,7 @@ export default function IntroLoader({ onDone }: Props) {
       flutter
         .to(pageRight, { rotateY:  12, duration: 0.42, ease: 'sine.inOut' }, 0.18)
         .to(pageRight, { rotateY:  22, duration: 0.42, ease: 'sine.inOut' }, 0.60);
+      flutter.timeScale(MASCOT_TIME_SCALE);
 
       // ── Main flight timeline ────────────────────────────────────────────
       const tl = gsap.timeline({
@@ -90,7 +94,7 @@ export default function IntroLoader({ onDone }: Props) {
           setTimeout(() => {
             overlay.style.boxShadow = '0 8px 56px rgba(41,141,255,0.42), 0 2px 16px rgba(41,141,255,0.22)';
             gsap.to(overlay, {
-              y: '-100%', duration: 0.5, ease: 'power2.in',
+              y: '-100%', duration: 0.57, ease: 'power2.in',
               onComplete: () => doneRef.current(),
             });
           }, 620);
@@ -136,6 +140,8 @@ export default function IntroLoader({ onDone }: Props) {
         tl.to(m, { opacity: 0.85, scale: 1, duration: 0.14, ease: 'power2.out' }, delay);
         tl.to(m, { opacity: 0, scale: 0.4, y: -22, duration: 0.52, ease: 'power1.out' }, delay + 0.14);
       });
+
+      tl.timeScale(MASCOT_TIME_SCALE);
     });
 
     return () => ctx.revert();
