@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import MosaicGrid from '../components/MosaicGrid';
 import ItemDetailPanel from '../components/ItemDetailPanel';
 import FiltersBar, { type Filters } from '../components/FiltersBar';
+import FlyingBooks from '../components/FlyingBooks';
 import { useStore, DEFAULT_PROFILE } from '../store/useStore';
 import { filterAndSort } from '../lib/filterSort';
 import { EXAMPLE_ITEMS } from '../_fixtures/example-items';
@@ -142,6 +143,11 @@ export default function Library() {
 
   return (
     <main className={styles.page}>
+      {/* Flying books — ambient background, fades out once items exist */}
+      {!isDemo && (
+        <FlyingBooks visible={store.items.length === 0 && !samplesActive} />
+      )}
+
       {isDemo && (
         <div className={styles.demoBanner}>
           Demo mode —{' '}

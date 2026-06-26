@@ -40,6 +40,9 @@
   height: calc(100vh - 52px);
   padding: clamp(80px, 18vh, 160px) var(--space-md) clamp(48px, 8vh, 96px);
   text-align: center;
+  /* Stacking context: keeps text above FlyingBooks (z-index 0) */
+  position: relative;
+  z-index: 1;
 }
 
 .welcomeCopy {
