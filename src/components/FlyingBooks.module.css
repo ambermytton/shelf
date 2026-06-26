@@ -13,6 +13,11 @@
   top: 0;
   left: 0;
   pointer-events: none;
+  /* Electric-blue glow: tight bright core + diffuse outer bloom */
+  filter:
+    drop-shadow(0 0 7px  rgba(41, 141, 255, 0.95))
+    drop-shadow(0 0 18px rgba(41, 141, 255, 0.60))
+    drop-shadow(0 0 42px rgba(41, 141, 255, 0.25));
 }
 
 @media (prefers-reduced-motion: reduce) {
