@@ -1,4 +1,4 @@
-/* Container fills the page, sits behind all content */
+/* Container fills the page, sits behind all empty-state content */
 .container {
   position: absolute;
   inset: 0;
@@ -7,19 +7,52 @@
   z-index: 0;
 }
 
-/* Each wrapper is the GSAP-animated anchor point */
+/* Each wrapper is the GSAP-animated anchor point for one book.
+   Glow = tight bright core + mid bloom + ambient halo, each scaled by two
+   live CSS vars: --glow-depth (slow, tied to near/far depth) and
+   --glow-flicker (fast, random) → a living firefly luminance, not a flat halo. */
 .bookWrap {
   position: absolute;
   top: 0;
   left: 0;
   pointer-events: none;
-  /* Electric-blue glow: tight bright core + diffuse outer bloom */
+  --glow-depth: 1;
+  --glow-flicker: 1;
   filter:
-    drop-shadow(0 0 7px  rgba(41, 141, 255, 0.95))
-    drop-shadow(0 0 18px rgba(41, 141, 255, 0.60))
-    drop-shadow(0 0 42px rgba(41, 141, 255, 0.25));
+    drop-shadow(0 0 calc(7px  * var(--glow-depth) * var(--glow-flicker)) rgba(41, 141, 255, 0.95))
+    drop-shadow(0 0 calc(19px * var(--glow-depth) * var(--glow-flicker)) rgba(41, 141, 255, 0.55))
+    drop-shadow(0 0 calc(46px * var(--glow-depth) * var(--glow-flicker)) rgba(41, 141, 255, 0.22));
+  will-change: transform, filter;
+}
+
+/* Layer that holds shed pages — sits above the books, below the copy */
+.pagesLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* A single shed page — a small glowing parchment shard */
+.fallingPage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(120, 185, 255, 0.55) 0%,
+    rgba(30, 66, 130, 0.94) 42%,
+    rgba(8, 16, 40, 1) 100%
+  );
+  border: 1px solid rgba(120, 185, 255, 0.42);
+  box-shadow:
+    0 0 9px  rgba(41, 141, 255, 0.80),
+    0 0 24px rgba(41, 141, 255, 0.38);
+  will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Books are shown static; GSAP handles opacity, so no extra rules needed */
+  /* Books are placed static with steady glow; JS skips all motion + shedding */
+  .bookWrap { will-change: auto; }
 }
