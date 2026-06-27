@@ -11,7 +11,9 @@ interface Props { visible: boolean; }
 const rnd = (min: number, max: number) => min + Math.random() * (max - min);
 type Pt = { x: number; y: number };
 
-// ── A single shed page: standalone glowing shard, animated independently ─────
+// ── A single shed page: a standalone glowing sheet of paper that flutters down
+//    like a leaf — sways side to side, tumbles on multiple axes, varies its fall
+//    speed catching air, then fades out before reaching the edges. ─────────────
 function spawnFallingPage(
   wrap: HTMLDivElement,
   layer: HTMLDivElement,
@@ -23,27 +25,50 @@ function spawnFallingPage(
 
   const el = document.createElement('div');
   el.className = styles.fallingPage;
-  el.style.width  = `${Math.max(10, Math.round(20 * s))}px`;
-  el.style.height = `${Math.max(13, Math.round(26 * s))}px`;
+  // Paper proportions — a thin sheet, clearly taller than wide (~1:1.55)
+  const pw = Math.max(9,  Math.round(14 * s));
+  const ph = Math.max(15, Math.round(22 * s));
+  el.style.width  = `${pw}px`;
+  el.style.height = `${ph}px`;
   layer.appendChild(el);
 
-  const driftX = (Math.random() - 0.5) * 130;
-  const fallY  = 80 + Math.random() * 130;
-  const rot0   = (Math.random() - 0.5) * 30;
-  const rot1   = rot0 + (Math.random() < 0.5 ? -1 : 1) * (150 + Math.random() * 220);
-  const dur    = 2.4 + Math.random() * 1.8;
+  const startX = x + (Math.random() - 0.5) * 20 * s;
+  const startY = y - 4 * s;
+  const dir    = Math.random() < 0.5 ? -1 : 1;   // initial sway direction
+  const sway   = 14 + Math.random() * 22;         // how far it rocks sideways
+  const fallY  = 95 + Math.random() * 130;        // total descent
+  const dur    = 3.0 + Math.random() * 2.4;       // slow, leaf-like
 
   gsap.set(el, {
-    x: x + (Math.random() - 0.5) * 22 * s,
-    y: y - 6 * s,
+    x: startX, y: startY,
     xPercent: -50, yPercent: -50,
-    opacity: 0, rotation: rot0, scale: 0.95,
+    transformPerspective: 420,
+    transformOrigin: '50% 40%',
+    opacity: 0,
+    scale: 0.9 + Math.random() * 0.2,
+    rotation:  (Math.random() - 0.5) * 36,
+    rotationX: (Math.random() - 0.5) * 40,
+    rotationY: (Math.random() - 0.5) * 60,
   });
 
   const tl = gsap.timeline({ onComplete() { el.remove(); } });
-  tl.to(el, { opacity: 0.92, duration: 0.45, ease: 'power2.out' }, 0)
-    .to(el, { x: `+=${driftX}`, y: `+=${fallY}`, rotation: rot1, scale: 0.5, duration: dur, ease: 'power1.in' }, 0)
-    .to(el, { opacity: 0, duration: dur * 0.55, ease: 'power1.in' }, dur * 0.45);
+
+  // Fade in as it detaches
+  tl.to(el, { opacity: 0.88, duration: 0.5, ease: 'power2.out' }, 0);
+
+  // Leaf descent in three rocking segments — accelerate, catch air & drift the
+  // other way, then fall again. Each segment sets an absolute x so it sways.
+  tl.to(el, { y: startY + fallY * 0.32, x: startX + dir * sway,       duration: dur * 0.32, ease: 'sine.in'    }, 0)
+    .to(el, { y: startY + fallY * 0.63, x: startX - dir * sway * 1.2, duration: dur * 0.34, ease: 'sine.inOut' }, dur * 0.32)
+    .to(el, { y: startY + fallY,        x: startX + dir * sway * 0.7, duration: dur * 0.34, ease: 'sine.in'    }, dur * 0.66);
+
+  // Continuous multi-axis tumble across the whole fall (3D, catching the light)
+  tl.to(el, { rotation:  `+=${dir * (140 + Math.random() * 180)}`, duration: dur, ease: 'none' }, 0)
+    .to(el, { rotationX: `+=${190 + Math.random() * 240}`,         duration: dur, ease: 'none' }, 0)
+    .to(el, { rotationY: `+=${dir * (170 + Math.random() * 220)}`, duration: dur, ease: 'none' }, 0);
+
+  // Fade out before it reaches the edges
+  tl.to(el, { opacity: 0, duration: dur * 0.42, ease: 'power1.in' }, dur * 0.58);
 
   cleanupFns.push(() => { tl.kill(); el.remove(); });
 }
@@ -122,7 +147,7 @@ export default function FlyingBooks({ visible }: Props) {
           { x: 0.12 * W, y: 0.64 * H },
         ],
         base: 0.80, near: 1.16, far: 0.62, mid: 0.94,
-        loopDur: 27, wingBeat: 3.6, bankAmp: 10, turnAmp: 14,
+        loopDur: 27, wingBeat: 1.5, bankAmp: 10, turnAmp: 14,
         entranceDelay: 0.3, entranceDur: 3.1,
       },
       { // 2 — mid, lower-left circuit
@@ -134,7 +159,7 @@ export default function FlyingBooks({ visible }: Props) {
           { x: 0.22 * W, y: 0.64 * H },
         ],
         base: 0.58, near: 0.80, far: 0.46, mid: 0.67,
-        loopDur: 21, wingBeat: 2.7, bankAmp: 13, turnAmp: 16,
+        loopDur: 21, wingBeat: 1.3, bankAmp: 13, turnAmp: 16,
         entranceDelay: 1.7, entranceDur: 2.9,
       },
       { // 3 — large-mid, big diagonal pass to upper-right, right-side loop
@@ -146,7 +171,7 @@ export default function FlyingBooks({ visible }: Props) {
           { x: 0.96 * W, y: 0.44 * H },
         ],
         base: 0.70, near: 1.02, far: 0.54, mid: 0.85,
-        loopDur: 24, wingBeat: 3.1, bankAmp: 11, turnAmp: 13,
+        loopDur: 24, wingBeat: 1.6, bankAmp: 11, turnAmp: 13,
         entranceDelay: 0.9, entranceDur: 3.3,
       },
       { // 4 — drifts across the top, above the copy
@@ -158,7 +183,7 @@ export default function FlyingBooks({ visible }: Props) {
           { x: 0.82 * W, y: 0.13 * H },
         ],
         base: 0.52, near: 0.72, far: 0.42, mid: 0.60,
-        loopDur: 23, wingBeat: 2.4, bankAmp: 9, turnAmp: 12,
+        loopDur: 23, wingBeat: 1.2, bankAmp: 9, turnAmp: 12,
         entranceDelay: 2.5, entranceDur: 3.0,
       },
       { // 5 — smaller (not tiny), lower-right circuit
@@ -170,7 +195,7 @@ export default function FlyingBooks({ visible }: Props) {
           { x: 0.70 * W, y: 0.70 * H },
         ],
         base: 0.47, near: 0.65, far: 0.39, mid: 0.55,
-        loopDur: 19, wingBeat: 2.1, bankAmp: 12, turnAmp: 14,
+        loopDur: 19, wingBeat: 1.1, bankAmp: 12, turnAmp: 14,
         entranceDelay: 3.1, entranceDur: 2.7,
       },
     ];
@@ -184,9 +209,9 @@ export default function FlyingBooks({ visible }: Props) {
         const arrival   = loop[0] as Pt;
         const loopPath  = [...loop, arrival]; // closed for seamless repeat
 
-        // Open spread to begin
-        gsap.set(pageLeft,  { rotateY: -22, transformOrigin: 'right center' });
-        gsap.set(pageRight, { rotateY:  22, transformOrigin: 'left center'  });
+        // Open spread to begin (GSAP property is rotationY, not rotateY)
+        gsap.set(pageLeft,  { rotationY: -22, transformOrigin: 'right center' });
+        gsap.set(pageRight, { rotationY:  22, transformOrigin: 'left center'  });
 
         // ── Reduced motion: place static on-screen, steady glow, no motion ──
         if (reduced) {
@@ -247,14 +272,16 @@ export default function FlyingBooks({ visible }: Props) {
           startAt: { rotationY: -turnAmp }, delay: entranceDelay,
         });
 
-        // ── Wing-beat: page-halves flap (begins during the swoop-in) ────────
+        // ── Wing-beat: page-halves flap like wings (continuous, begins on swoop-in) ──
+        // Each half folds closed → snaps wide open → eases back to rest, the two
+        // sides offset so it reads as a living flutter rather than a clap.
         const wt = gsap.timeline({ repeat: -1, delay: entranceDelay + 0.2 });
-        wt.to(pageLeft, { rotateY: -36, duration: wingBeat * 0.30, ease: 'power2.in'  })
-          .to(pageLeft, { rotateY:  -3, duration: wingBeat * 0.38, ease: 'power2.out' })
-          .to(pageLeft, { rotateY: -22, duration: wingBeat * 0.32, ease: 'sine.inOut' });
-        wt.to(pageRight, { rotateY: 36, duration: wingBeat * 0.30, ease: 'power2.in'  }, wingBeat * 0.15)
-          .to(pageRight, { rotateY:  3, duration: wingBeat * 0.38, ease: 'power2.out' }, wingBeat * 0.45)
-          .to(pageRight, { rotateY: 22, duration: wingBeat * 0.32, ease: 'sine.inOut' }, wingBeat * 0.83);
+        wt.to(pageLeft, { rotationY: -40, duration: wingBeat * 0.28, ease: 'power2.in'  })
+          .to(pageLeft, { rotationY:  -5, duration: wingBeat * 0.40, ease: 'power2.out' })
+          .to(pageLeft, { rotationY: -22, duration: wingBeat * 0.32, ease: 'sine.inOut' });
+        wt.to(pageRight, { rotationY: 40, duration: wingBeat * 0.28, ease: 'power2.in'  }, wingBeat * 0.12)
+          .to(pageRight, { rotationY:  5, duration: wingBeat * 0.40, ease: 'power2.out' }, wingBeat * 0.42)
+          .to(pageRight, { rotationY: 22, duration: wingBeat * 0.32, ease: 'sine.inOut' }, wingBeat * 0.82);
 
         // ── Living firefly glow flicker ─────────────────────────────────────
         fireflyFlicker(wrap, cleanupFns.current);
