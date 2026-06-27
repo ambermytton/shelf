@@ -27,7 +27,7 @@
   border-radius: var(--rounded-md);
   cursor: text;
   min-height: 44px;
-  transition: border-color 0.12s;
+  transition: border-color var(--transition-hover);
 }
 
 .field:focus-within {
@@ -96,7 +96,7 @@
   border-radius: var(--rounded-full);
   padding: 3px var(--space-xs);
   cursor: pointer;
-  transition: color 0.1s, border-color 0.1s;
+  transition: color var(--transition-hover), border-color var(--transition-hover);
 }
 
 .suggestion:hover {

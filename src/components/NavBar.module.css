@@ -84,7 +84,7 @@
   text-decoration: none;
   padding: 5px var(--space-sm);
   border-radius: var(--rounded-md);
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: color var(--transition-hover), background var(--transition-hover);
   position: relative;
 }
 
@@ -127,7 +127,7 @@
   border: none;
   border-radius: var(--rounded-full);
   padding: 6px var(--space-md);
-  transition: opacity 0.15s ease;
+  transition: opacity var(--transition-hover);
 }
 
 .addBtn:hover {

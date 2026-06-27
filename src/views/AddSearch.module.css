@@ -24,7 +24,7 @@
   outline: none;
   padding: var(--space-xs) 0 var(--space-sm);
   caret-color: var(--color-primary);
-  transition: border-color 0.15s ease;
+  transition: border-color var(--transition-hover);
   box-sizing: border-box;
 }
 
@@ -54,7 +54,7 @@
   padding: var(--space-sm) var(--space-md);
   margin-bottom: -1px;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color var(--transition-hover), border-color var(--transition-hover);
 }
 
 .tab:hover { color: var(--color-ink); }
@@ -85,7 +85,7 @@
 
 .errorMsg {
   font-size: var(--font-size-body-sm);
-  color: #e5534b;
+  color: var(--color-accent-red);
   padding: var(--space-md) 0;
   line-height: 1.5;
   text-align: center;

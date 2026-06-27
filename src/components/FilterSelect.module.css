@@ -14,7 +14,7 @@
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: border-color var(--transition-hover), color var(--transition-hover), background var(--transition-hover);
 }
 
 .trigger:hover {
@@ -53,7 +53,7 @@
 .chevron {
   color: var(--color-ink-faint);
   flex-shrink: 0;
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.15s ease;
+  transition: transform 0.22s var(--ease-out), color var(--transition-hover);
 }
 
 .triggerOpen .chevron {
@@ -75,7 +75,7 @@
   z-index: 400;
   overflow: hidden;
   padding: 4px;
-  animation: dropIn 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: dropIn 0.16s var(--ease-out);
 }
 
 /* Thin blue accent at the very top of the panel */
@@ -115,7 +115,7 @@
   border-radius: calc(var(--rounded-md) - 2px);
   cursor: pointer;
   text-align: left;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition: background var(--transition-hover), color var(--transition-hover);
   white-space: nowrap;
   letter-spacing: 0.01em;
 }
@@ -146,5 +146,5 @@
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
   .dropdown { animation: none; }
-  .chevron  { transition: color 0.15s ease; }
+  .chevron  { transition: color var(--transition-hover); }
 }

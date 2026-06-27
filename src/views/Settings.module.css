@@ -100,7 +100,7 @@
   cursor: pointer;
   border: 2px solid var(--color-canvas);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  transition: transform 0.1s;
+  transition: transform var(--transition-hover);
 }
 
 .range::-webkit-slider-thumb:hover {
@@ -163,7 +163,7 @@
   border-radius: var(--rounded-full);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s;
+  transition: background var(--transition-hover), color var(--transition-hover), border-color var(--transition-hover), opacity var(--transition-hover);
 }
 
 .btnPrimary {
@@ -186,8 +186,8 @@
 
 .btnDanger {
   background: transparent;
-  color: #e5534b;
+  color: var(--color-accent-red);
   border-color: var(--color-hairline);
   margin-left: auto;
 }
-.btnDanger:hover { border-color: #e5534b; }
+.btnDanger:hover { border-color: var(--color-accent-red); }

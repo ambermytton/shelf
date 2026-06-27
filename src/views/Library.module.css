@@ -21,7 +21,7 @@
   font-size: var(--font-size-body-sm);
   color: var(--color-ink-faint);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--transition-hover);
 }
 
 .cornerHint:hover {
@@ -106,7 +106,7 @@
   font-weight: var(--font-weight-medium);
   color: rgba(41, 141, 255, 0.6);
   letter-spacing: 0.02em;
-  transition: color 0.15s ease;
+  transition: color var(--transition-hover);
 }
 
 .clearSamplesBtn:hover {
@@ -175,7 +175,7 @@
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-color: rgba(41, 141, 255, 0.4);
-  transition: text-decoration-color 0.15s ease;
+  transition: text-decoration-color var(--transition-hover);
 }
 
 .populateInline:hover {

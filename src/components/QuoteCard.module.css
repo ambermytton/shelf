@@ -12,7 +12,7 @@
   padding: var(--space-md);
   box-sizing: border-box;
   overflow: hidden;
-  transition: box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: box-shadow 0.35s var(--ease-glide);
 }
 
 .card:hover {
