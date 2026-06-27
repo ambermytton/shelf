@@ -25,64 +25,28 @@
   will-change: transform, filter;
 }
 
-/* Layer that holds shed pages — sits above the books, below the copy */
-.pagesLayer {
+/* Layer that holds the fairy-dust sparkles — above the books, below the copy */
+.sparkleLayer {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-/* A single shed page — a thin glowing sheet of paper with a curled corner */
-.fallingPage {
+/* A single fairy-dust mote — a tiny electric-blue glitter that twinkles + fades */
+.sparkle {
   position: absolute;
   top: 0;
   left: 0;
   pointer-events: none;
-  border-radius: 1px 2px 2px 1px;
-  background: linear-gradient(
-    118deg,
-    rgba(150, 200, 255, 0.62) 0%,
-    rgba(70, 130, 215, 0.50) 20%,
-    rgba(26, 58, 116, 0.92) 56%,
-    rgba(8, 16, 40, 0.98) 100%
-  );
-  border: 1px solid rgba(120, 185, 255, 0.40);
+  border-radius: 50%;
+  background: rgba(200, 228, 255, 0.95);
   box-shadow:
-    0 0 7px  rgba(41, 141, 255, 0.62),
-    0 0 18px rgba(41, 141, 255, 0.28),
-    inset 0 0 4px rgba(150, 200, 255, 0.22);
-  transform-style: preserve-3d;
+    0 0 4px  rgba(120, 190, 255, 0.95),
+    0 0 10px rgba(41, 141, 255, 0.55);
   will-change: transform, opacity;
-  overflow: hidden;
-}
-
-/* Faint horizontal rules so it reads as a written page, not a slab */
-.fallingPage::before {
-  content: '';
-  position: absolute;
-  inset: 1px 1.5px;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 2px,
-    rgba(160, 205, 255, 0.16) 2px,
-    rgba(160, 205, 255, 0.16) 3px
-  );
-}
-
-/* Curled top-right corner — a soft sheen that sells the bend */
-.fallingPage::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 48%;
-  height: 48%;
-  background: linear-gradient(225deg, rgba(190, 220, 255, 0.55), transparent 62%);
-  border-top-right-radius: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Books are placed static with steady glow; JS skips all motion + shedding */
+  /* Books are placed static with steady glow; JS skips all motion + sparkles */
   .bookWrap { will-change: auto; }
 }
