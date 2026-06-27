@@ -109,66 +109,71 @@ export default function FlyingBooks({ visible }: Props) {
     // centred "Welcome" copy stays clear. `pitch` is the from-above tilt (deg)
     // that turns the flat open book into a 3/4 bird's-eye view: spine = body
     // ridge, page-halves = wings.
+    // Each book darts ACROSS the screen on a wide sweeping path (enters off one
+    // edge, traverses, grazes the far edge, sweeps back) so it reads as flying
+    // past — not hovering. `pitch` is a small forward tilt only (the spine is
+    // held horizontal by the .flyingOrient 90° rotation); `bankAmp` rolls it as
+    // it turns. Faster loopDur = more darting.
     const CONFIGS = [
-      { // 1 — foreground hero: swoops in top-right, big left-side passes
+      { // 1 — large, wide sweep across the upper third
         wrap: w1.current!, mascot: b1.current!,
-        start: { x: 1.15 * W, y: -0.20 * H }, ctrl: { x: 0.66 * W, y: 0.16 * H },
+        start: { x: 1.25 * W, y: 0.20 * H }, ctrl: { x: 0.70 * W, y: 0.12 * H },
         loop: [
-          { x: 0.18 * W, y: 0.42 * H }, { x: 0.09 * W, y: 0.22 * H },
-          { x: 0.28 * W, y: 0.12 * H }, { x: 0.30 * W, y: 0.50 * H },
-          { x: 0.12 * W, y: 0.64 * H },
+          { x: 0.08 * W, y: 0.26 * H }, { x: 0.34 * W, y: 0.13 * H },
+          { x: 0.66 * W, y: 0.24 * H }, { x: 0.93 * W, y: 0.12 * H },
+          { x: 0.62 * W, y: 0.30 * H }, { x: 0.30 * W, y: 0.18 * H },
         ],
-        base: 0.80, near: 1.14, far: 0.64, mid: 0.94,
-        loopDur: 27, wingBeat: 0.95, bankAmp: 12, pitch: 46,
-        entranceDelay: 0.3, entranceDur: 3.1,
+        base: 0.78, near: 1.04, far: 0.66, mid: 0.90,
+        loopDur: 14, wingBeat: 0.62, bankAmp: 14, pitch: 16,
+        entranceDelay: 0.3, entranceDur: 2.4,
       },
-      { // 2 — mid, lower-left circuit
+      { // 2 — mid, wide sweep across the lower third
         wrap: w2.current!, mascot: b2.current!,
-        start: { x: -0.22 * W, y: 0.72 * H }, ctrl: { x: 0.10 * W, y: 0.86 * H },
+        start: { x: -0.28 * W, y: 0.78 * H }, ctrl: { x: 0.14 * W, y: 0.84 * H },
         loop: [
-          { x: 0.20 * W, y: 0.74 * H }, { x: 0.08 * W, y: 0.82 * H },
-          { x: 0.24 * W, y: 0.90 * H }, { x: 0.36 * W, y: 0.76 * H },
-          { x: 0.22 * W, y: 0.64 * H },
+          { x: 0.12 * W, y: 0.74 * H }, { x: 0.40 * W, y: 0.86 * H },
+          { x: 0.70 * W, y: 0.71 * H }, { x: 0.93 * W, y: 0.83 * H },
+          { x: 0.58 * W, y: 0.76 * H }, { x: 0.28 * W, y: 0.88 * H },
         ],
-        base: 0.58, near: 0.80, far: 0.46, mid: 0.67,
-        loopDur: 21, wingBeat: 0.82, bankAmp: 15, pitch: 42,
-        entranceDelay: 1.7, entranceDur: 2.9,
+        base: 0.58, near: 0.78, far: 0.47, mid: 0.66,
+        loopDur: 12, wingBeat: 0.54, bankAmp: 16, pitch: 14,
+        entranceDelay: 1.4, entranceDur: 2.2,
       },
-      { // 3 — large-mid, big diagonal pass to upper-right, right-side loop
+      { // 3 — large-mid, big diagonal sweep corner to corner
         wrap: w3.current!, mascot: b3.current!,
-        start: { x: 1.22 * W, y: 1.12 * H }, ctrl: { x: 0.86 * W, y: 0.54 * H },
+        start: { x: 1.28 * W, y: 0.95 * H }, ctrl: { x: 0.82 * W, y: 0.58 * H },
         loop: [
-          { x: 0.84 * W, y: 0.32 * H }, { x: 0.93 * W, y: 0.20 * H },
-          { x: 0.78 * W, y: 0.50 * H }, { x: 0.88 * W, y: 0.66 * H },
-          { x: 0.96 * W, y: 0.44 * H },
+          { x: 0.12 * W, y: 0.22 * H }, { x: 0.46 * W, y: 0.40 * H },
+          { x: 0.82 * W, y: 0.24 * H }, { x: 0.95 * W, y: 0.52 * H },
+          { x: 0.58 * W, y: 0.62 * H }, { x: 0.22 * W, y: 0.44 * H },
         ],
-        base: 0.70, near: 1.00, far: 0.54, mid: 0.85,
-        loopDur: 24, wingBeat: 1.05, bankAmp: 13, pitch: 48,
-        entranceDelay: 0.9, entranceDur: 3.3,
+        base: 0.68, near: 0.94, far: 0.54, mid: 0.82,
+        loopDur: 15, wingBeat: 0.66, bankAmp: 13, pitch: 18,
+        entranceDelay: 0.8, entranceDur: 2.6,
       },
-      { // 4 — drifts across the top, above the copy
+      { // 4 — small-mid, fast crossing along the very top
         wrap: w4.current!, mascot: b4.current!,
-        start: { x: -0.16 * W, y: -0.22 * H }, ctrl: { x: 0.30 * W, y: 0.07 * H },
+        start: { x: -0.22 * W, y: 0.10 * H }, ctrl: { x: 0.22 * W, y: 0.06 * H },
         loop: [
-          { x: 0.50 * W, y: 0.11 * H }, { x: 0.30 * W, y: 0.06 * H },
-          { x: 0.16 * W, y: 0.15 * H }, { x: 0.64 * W, y: 0.05 * H },
-          { x: 0.82 * W, y: 0.13 * H },
+          { x: 0.06 * W, y: 0.10 * H }, { x: 0.36 * W, y: 0.04 * H },
+          { x: 0.66 * W, y: 0.12 * H }, { x: 0.95 * W, y: 0.05 * H },
+          { x: 0.56 * W, y: 0.13 * H }, { x: 0.26 * W, y: 0.06 * H },
         ],
-        base: 0.52, near: 0.72, far: 0.42, mid: 0.60,
-        loopDur: 23, wingBeat: 0.78, bankAmp: 11, pitch: 44,
-        entranceDelay: 2.5, entranceDur: 3.0,
+        base: 0.50, near: 0.70, far: 0.42, mid: 0.58,
+        loopDur: 11, wingBeat: 0.5, bankAmp: 11, pitch: 13,
+        entranceDelay: 2.2, entranceDur: 2.2,
       },
-      { // 5 — smaller (not tiny), lower-right circuit
+      { // 5 — small, quick darting through the mid-right
         wrap: w5.current!, mascot: b5.current!,
-        start: { x: 1.18 * W, y: 0.55 * H }, ctrl: { x: 0.82 * W, y: 0.62 * H },
+        start: { x: 1.22 * W, y: 0.45 * H }, ctrl: { x: 0.84 * W, y: 0.50 * H },
         loop: [
-          { x: 0.72 * W, y: 0.74 * H }, { x: 0.80 * W, y: 0.66 * H },
-          { x: 0.88 * W, y: 0.82 * H }, { x: 0.66 * W, y: 0.85 * H },
-          { x: 0.70 * W, y: 0.70 * H },
+          { x: 0.58 * W, y: 0.52 * H }, { x: 0.82 * W, y: 0.64 * H },
+          { x: 0.95 * W, y: 0.48 * H }, { x: 0.80 * W, y: 0.38 * H },
+          { x: 0.62 * W, y: 0.50 * H }, { x: 0.74 * W, y: 0.62 * H },
         ],
-        base: 0.47, near: 0.65, far: 0.39, mid: 0.55,
-        loopDur: 19, wingBeat: 0.72, bankAmp: 14, pitch: 40,
-        entranceDelay: 3.1, entranceDur: 2.7,
+        base: 0.46, near: 0.63, far: 0.39, mid: 0.54,
+        loopDur: 9, wingBeat: 0.46, bankAmp: 15, pitch: 15,
+        entranceDelay: 2.9, entranceDur: 2.0,
       },
     ];
 
@@ -295,11 +300,11 @@ export default function FlyingBooks({ visible }: Props) {
 
   return (
     <div ref={containerRef} className={styles.container} aria-hidden="true">
-      <div ref={w1} className={styles.bookWrap}><BookMascot ref={b1} mode="static" /></div>
-      <div ref={w2} className={styles.bookWrap}><BookMascot ref={b2} mode="static" /></div>
-      <div ref={w3} className={styles.bookWrap}><BookMascot ref={b3} mode="static" /></div>
-      <div ref={w4} className={styles.bookWrap}><BookMascot ref={b4} mode="static" /></div>
-      <div ref={w5} className={styles.bookWrap}><BookMascot ref={b5} mode="static" /></div>
+      <div ref={w1} className={styles.bookWrap}><BookMascot ref={b1} mode="static" showBase={false} className={styles.flyingOrient} /></div>
+      <div ref={w2} className={styles.bookWrap}><BookMascot ref={b2} mode="static" showBase={false} className={styles.flyingOrient} /></div>
+      <div ref={w3} className={styles.bookWrap}><BookMascot ref={b3} mode="static" showBase={false} className={styles.flyingOrient} /></div>
+      <div ref={w4} className={styles.bookWrap}><BookMascot ref={b4} mode="static" showBase={false} className={styles.flyingOrient} /></div>
+      <div ref={w5} className={styles.bookWrap}><BookMascot ref={b5} mode="static" showBase={false} className={styles.flyingOrient} /></div>
       <div ref={sparkleLayerRef} className={styles.sparkleLayer} />
     </div>
   );

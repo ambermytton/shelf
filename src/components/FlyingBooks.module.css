@@ -25,6 +25,12 @@
   will-change: transform, filter;
 }
 
+/* Orients the book mascot so the spine is horizontal (the "body"), turning the
+   left/right page-halves into wings that flap up and down off that spine. */
+.flyingOrient {
+  transform: rotate(90deg);
+}
+
 /* Layer that holds the fairy-dust sparkles — above the books, below the copy */
 .sparkleLayer {
   position: absolute;

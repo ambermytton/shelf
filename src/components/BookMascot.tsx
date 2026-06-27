@@ -12,10 +12,13 @@ export interface BookMascotHandle {
 interface BookMascotProps {
   mode?:      BookMode;
   className?: string;
+  /** Render the cover-base depth shadow beneath the pages. Off for the
+   *  bird's-eye flying books, where it reads as an odd flat smear. */
+  showBase?:  boolean;
 }
 
 const BookMascot = forwardRef<BookMascotHandle, BookMascotProps>(function BookMascot(
-  { mode = 'idle', className = '' },
+  { mode = 'idle', className = '', showBase = true },
   ref,
 ) {
   const rootRef  = useRef<HTMLDivElement>(null);
@@ -62,7 +65,7 @@ const BookMascot = forwardRef<BookMascotHandle, BookMascotProps>(function BookMa
         </div>
 
         {/* Cover base — depth illusion beneath pages */}
-        <div className={styles.coverBase} />
+        {showBase && <div className={styles.coverBase} />}
       </div>
     </div>
   );
